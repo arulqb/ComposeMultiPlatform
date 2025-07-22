@@ -76,7 +76,8 @@ fun DiscoverScreen(windowWidthSizeClass: WindowWidthSizeClass) {
     val viewModel: DiscoverViewModel = koinInject()
     val state by viewModel.uiState.collectAsState()
 
-    val isTab = windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
+    val isTab = windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
+
     val maxSectionInProduct = if (isTab) 6 else 4
     val maxColumnInProduct = if (isTab) 4 else 2
 

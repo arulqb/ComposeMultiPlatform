@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codingwitharul.bookmyslot.domain.repo.PokemonRepo
 import com.codingwitharul.bookmyslot.utils.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,7 +27,17 @@ class PokedexViewModel(private val repo: PokemonRepo) : ViewModel() {
         }
     }
 
-    fun getPokemonList(){
+    fun gert() {
+        viewModelScope.launch(Dispatchers.Default) {
+            async { repo.getPokemonList() }
+            with(Dispatchers.Main) {
+
+            }
+
+        }
+    }
+
+    fun getPokemonList() {
         viewModelScope.launch {
 
             repo.getPokemonList().collect{

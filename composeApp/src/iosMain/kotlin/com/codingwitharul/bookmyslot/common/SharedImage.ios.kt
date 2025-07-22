@@ -26,7 +26,6 @@ actual class SharedImage(private val image: UIImage?, actual val path: Path?) {
         } else {
             null
         }
-
     }
 
     actual fun toImageBitmap(): ImageBitmap? {

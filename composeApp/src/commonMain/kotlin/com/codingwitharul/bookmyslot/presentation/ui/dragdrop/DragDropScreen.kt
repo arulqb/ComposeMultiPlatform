@@ -1,5 +1,7 @@
 //package com.codingwitharul.bookmyslot.presentation.ui.dragdrop
 //
+//import android.content.ClipData
+//import android.content.ClipDescription
 //import androidx.compose.foundation.Image
 //import androidx.compose.foundation.background
 //import androidx.compose.foundation.draganddrop.dragAndDropSource
@@ -16,7 +18,6 @@
 //import androidx.compose.runtime.getValue
 //import androidx.compose.runtime.mutableStateOf
 //import androidx.compose.runtime.remember
-//import androidx.compose.runtime.remember
 //import androidx.compose.runtime.rememberCoroutineScope
 //import androidx.compose.runtime.setValue
 //import androidx.compose.ui.Alignment
@@ -24,6 +25,7 @@
 //import androidx.compose.ui.draganddrop.DragAndDropEvent
 //import androidx.compose.ui.draganddrop.DragAndDropTarget
 //import androidx.compose.ui.geometry.Offset
+//import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 //import androidx.compose.ui.graphics.Color
 //import androidx.compose.ui.input.pointer.pointerInput
 //import androidx.compose.ui.layout.ContentScale
@@ -36,9 +38,9 @@
 //import androidx.compose.ui.text.rememberTextMeasurer
 //import androidx.compose.ui.unit.dp
 //import bookmyslot.composeapp.generated.resources.Res
+//import bookmyslot.composeapp.generated.resources.ic_drag_drop
 //import bookmyslot.composeapp.generated.resources.img_headphone_splash
 //import kotlinx.coroutines.delay
-//import kotlinx.coroutines.launch
 //import kotlinx.coroutines.launch
 //import org.jetbrains.compose.resources.painterResource
 //
@@ -57,12 +59,11 @@
 //    ) {
 //        // Draggable Image
 //        Image(
-//            painter = painterResource( Res.drawable.img_headphone_splash), // Replace with your image resource
+//            painter = painterResource( Res.drawable.ic_drag_drop), // Replace with your image resource
 //            contentDescription = "Draggable Image",
 //            modifier = Modifier
 //                .size(100.dp)
-//                .dragAndDropSource {
-//
+//                .dragAndDropSource { t ->
 //
 //                    detectTapGestures(
 //                        onLongPress = {
@@ -75,7 +76,7 @@
 //                                        ), // Provide appropriate mime type
 //                                        ClipData.Item("Image URI or data") // Provide image URI or data
 //                                    ),
-//                                    flags = DRAG_FLAG_GLOBAL,
+//                                    flags = android.view.View.DRAG_FLAG_GLOBAL,
 //                                    localState = "Dragging image" // Optional local state
 //                                )
 //                            )

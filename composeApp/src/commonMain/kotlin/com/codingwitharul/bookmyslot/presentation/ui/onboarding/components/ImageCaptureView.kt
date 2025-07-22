@@ -25,13 +25,13 @@ import bookmyslot.composeapp.generated.resources.close
 import bookmyslot.composeapp.generated.resources.ic_camera_capture
 import bookmyslot.composeapp.generated.resources.ic_camera_rotate
 import com.codingwitharul.bookmyslot.common.CameraCallback
+import com.codingwitharul.bookmyslot.common.CameraEvent
 import com.codingwitharul.bookmyslot.common.CameraView
 import kotlinx.coroutines.launch
 import kotlinx.io.files.Path
 import multiplatform.network.cmptoast.showToast
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
 
 @Preview
 @Composable
@@ -40,32 +40,25 @@ fun ImageCaptureView(onImageCaptured: (Path?) -> Unit, onClose: () -> Unit = {})
     val scope = rememberCoroutineScope()
     val callback = remember {
         object : CameraCallback() {
-            override fun onCaptureImage(image: Path?) {
+            override fun onCaptureImage(image: Path?, error: String?) {
                 showToast("Image Captured $image")
                 onImageCaptured(image)
             }
         }
     }
 
-    fun takePicture() {
-        scope.launch {
-            callback.sendEvent(CameraCallback.CameraEvent.CaptureImage)
-        }
+    fun takePicture() = scope.launch {
+        callback.sendEvent(CameraEvent.CaptureImage)
     }
 
-    fun switchCamera() {
-        scope.launch {
-            callback.sendEvent(CameraCallback.CameraEvent.SwitchCamera)
-        }
-    }
-
-    fun closeCamera() {
-        onClose()
+    fun switchCamera() = scope.launch {
+        callback.sendEvent(CameraEvent.SwitchCamera)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
+//      CameraView from each platform using expect/actual functionality
         CameraView(callback)
-
+//      Custom Capture View Design
         Row(
             modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth()
                 .height(120.dp)
@@ -77,9 +70,7 @@ fun ImageCaptureView(onImageCaptured: (Path?) -> Unit, onClose: () -> Unit = {})
             IconButton(
                 modifier = Modifier
                     .size(60.dp),
-                onClick = {
-                    closeCamera()
-                }, colors = IconButtonDefaults.iconButtonColors(
+                onClick = onClose, colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.White.copy(alpha = 0.2f),
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
@@ -92,9 +83,7 @@ fun ImageCaptureView(onImageCaptured: (Path?) -> Unit, onClose: () -> Unit = {})
                 )
             }
             IconButton(
-                onClick = {
-                    takePicture()
-                },
+                onClick = ::takePicture,
                 modifier = Modifier
                     .size(80.dp),
                 colors = IconButtonDefaults.iconButtonColors(
@@ -111,9 +100,7 @@ fun ImageCaptureView(onImageCaptured: (Path?) -> Unit, onClose: () -> Unit = {})
             IconButton(
                 modifier = Modifier
                     .size(60.dp),
-                onClick = {
-                    switchCamera()
-                }, colors = IconButtonDefaults.iconButtonColors(
+                onClick = ::switchCamera, colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.White.copy(alpha = 0.2f),
                     contentColor = Color.Black
                 )

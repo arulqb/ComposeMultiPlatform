@@ -57,9 +57,9 @@ actual fun CameraView(callback: CameraCallback) {
         session.addOutput(output)
         session.startRunning()
 
-        callback.observeEvent().collect {
+        callback.eventFlow.collect {
             when (it) {
-                CameraCallback.CameraEvent.CaptureImage -> {
+                CameraEvent.CaptureImage -> {
                     val connection = output.connectionWithMediaType(AVMediaTypeVideo)
                     if (connection != null) {
                         output.captureStillImageAsynchronouslyFromConnection(connection) { sampleBuffer, error ->
@@ -79,8 +79,7 @@ actual fun CameraView(callback: CameraCallback) {
                     }
                 }
 
-                CameraCallback.CameraEvent.Init -> {}
-                CameraCallback.CameraEvent.SwitchCamera -> {
+                CameraEvent.SwitchCamera -> {
                     session.stopRunning()
                     session.removeInput(currentInput)
                     currentCamera = if (currentCamera == backCamera) frontCamera else backCamera

@@ -48,9 +48,11 @@ import bookmyslot.composeapp.generated.resources.Res
 import bookmyslot.composeapp.generated.resources.app_name
 import bookmyslot.composeapp.generated.resources.logo_bml
 import bookmyslot.composeapp.generated.resources.stallion_beatsides_regular
+import com.codingwitharul.bookmyslot.common.HardwareInfo
 import com.codingwitharul.bookmyslot.db.UserInfo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
+import multiplatform.network.cmptoast.showToast
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -65,6 +67,8 @@ internal fun SplashScreen(onNavigate: (UserInfo?) -> Unit = {}) {
     val state by viewModel.uiState.collectAsState()
     var splashAnime by remember { mutableStateOf(true) }
 
+    val hardInfor: HardwareInfo = koinInject()
+    showToast("Screen size ${hardInfor.getHardwareInfo().height}")
     LaunchedEffect(viewModel.uiState) {
         delay(600)
         splashAnime = false

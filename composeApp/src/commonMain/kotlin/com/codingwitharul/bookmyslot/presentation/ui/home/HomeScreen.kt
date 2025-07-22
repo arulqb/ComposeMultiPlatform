@@ -39,7 +39,7 @@ fun HomeScreen() {
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
     val useNavRail =
-        adaptiveInfo.windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
+        adaptiveInfo.windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
 
     if (useNavRail) {
         Row(horizontalArrangement = Arrangement.Center) {
